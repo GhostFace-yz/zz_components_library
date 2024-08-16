@@ -1,1 +1,67 @@
-@import './reset.css'
+@import './reset.css';
+
+:root {
+  /* colors */
+  --zz-color-white: #ffffff;
+  --zz-color-black: #000000;
+  --colors: (primary: #409eff, success: #67c23a, warning: #e6a23c, danger: #f56c6c, info: #909399);
+  --zz-bg-color: #ffffff;
+  --zz-bg-color-page: #f2f3f5;
+  --zz-bg-color-overlay: #ffffff;
+  --zz-text-color-primary: #303133;
+  --zz-text-color-regular: #606266;
+  --zz-text-color-secondary: #909399;
+  --zz-text-color-placeholder: #a8abb2;
+  --zz-text-color-disabled: #c0c4cc;
+  --zz-border-color: #dcdfe6;
+  --zz-border-color-light: #e4e7ed;
+  --zz-border-color-lighter: #ebeef5;
+  --zz-border-color-extra-light: #f2f6fc;
+  --zz-border-color-dark: #d4d7de;
+  --zz-border-color-darker: #cdd0d6;
+  --zz-fill-color: #f0f2f5;
+  --zz-fill-color-light: #f5f7fa;
+  --zz-fill-color-lighter: #fafafa;
+  --zz-fill-color-extra-light: #fafcff;
+  --zz-fill-color-dark: #ebedf0;
+  --zz-fill-color-darker: #e6e8eb;
+  --zz-fill-color-blank: #ffffff;
+  
+  @each $val, $color in var(--colors) {
+    --zz-color-$(val): $(color);
+    @for $i from 3 to 9 {
+      --zz-color-$(val)-light-$(i): mix(#fff, $(color), 0.$(i));
+    }
+    --zz-color-$(val)-dark-2: mix(#000, $(color), 0.2);
+  }
+
+  /* border */
+  --zz-border-width: 1px;
+  --zz-border-style: solid;
+  --zz-border-color-hover: var(--zz-text-color-disabled);
+  --zz-border: var(--zz-border-width) var(--zz-border-style) var(--zz-border-color);
+  --zz-border-radius-base: 4px;
+  --zz-border-radius-small: 2px;
+  --zz-border-radius-round: 20px;
+  --zz-border-radius-circle: 100%;
+
+  /*font*/
+  --zz-font-size-extra-large: 20px;
+  --zz-font-size-large: 18px;
+  --zz-font-size-medium: 16px;
+  --zz-font-size-base: 14px;
+  --zz-font-size-small: 13px;
+  --zz-font-size-extra-small: 12px;
+  --zz-font-family: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+    'Microsoft YaHei', '\5fae\8f6f\96c5\9ed1', Arial, sans-serif;
+  --zz-font-weight-primary: 500;
+
+  /*disabled*/
+  --zz-disabled-bg-color: var(--zz-fill-color-light);
+  --zz-disabled-text-color: var(--zz-text-color-placeholder);
+  --zz-disabled-border-color: var(--zz-border-color-light);
+
+  /*animation*/
+  --zz-transition-duration: 0.4s;
+  --zz-transition-duration-fast: 0.2s;
+}

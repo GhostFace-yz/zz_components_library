@@ -1,104 +1,71 @@
-import { describe, it, test, expect, vi } from "vitest";
-import { mount } from '@vue/test-utils';
+import { describe, it, expect } from "vitest";
+import { mount } from "@vue/test-utils";
+
 import Button from "./Button.vue";
 
 describe("Button.vue", () => {
-   // 测试按钮的基本渲染
-   it('should render correctly with default props', () => {
-    const wrapper = mount(Button);
-    expect(wrapper.exists()).toBe(true);
-  });
-
-  // 测试按钮尺寸
-  it('should render with different sizes', () => {
-    const sizes = ['large', 'default', 'small'];
-    sizes.forEach(size => {
+  // Props: type
+  it("should has the correct type class when type prop is set", () => {
+    const types = ["primary", "success", "warning", "danger", "info"];
+    types.forEach((type) => {
       const wrapper = mount(Button, {
-        props: { size }
+        props: { type: type as any },
       });
-      expect(wrapper.classes()).toContain(`btn-${size}`);
+      expect(wrapper.classes()).toContain(`zz-button--${type}`);
     });
   });
 
-  // 测试按钮类型
-  it('should render with different types', () => {
-    const types = ['primary', 'success', 'warning', 'danger', 'info'];
-    types.forEach(type => {
+  // Props: size
+  it("should has the correct size class when size prop is set", () => {
+    const sizes = ["large", "default", "small"];
+    sizes.forEach((size) => {
       const wrapper = mount(Button, {
-        props: { type }
+        props: { size: size as any },
       });
-      expect(wrapper.classes()).toContain(`btn-${type}`);
+      expect(wrapper.classes()).toContain(`zz-button--${size}`);
     });
   });
 
-  // 测试朴素按钮
-  it('should render as plain button', () => {
+  // Props: plain, round, circle
+  it.each([
+    ["plain", "is-plain"],
+    ["round", "is-round"],
+    ["circle", "is-circle"],
+    ["disabled", "is-disabled"],
+    ["loading", "is-loading"],
+  ])(
+    "should has the correct class when prop %s is set to true",
+    (prop, className) => {
+      const wrapper = mount(Button, {
+        props: { [prop]: true },
+        global: {
+          stubs: ["ErIcon"],
+        },
+      });
+      expect(wrapper.classes()).toContain(className);
+    }
+  );
+
+  it("should has the correct native type attribute when native-type prop is set", () => {
     const wrapper = mount(Button, {
-      props: { plain: true }
+      props: { nativeType: "submit" },
     });
-    expect(wrapper.classes()).toContain('is-plain');
+    expect(wrapper.element.tagName).toBe("BUTTON");
+    expect((wrapper.element as any).type).toBe("submit");
   });
 
-  // 测试圆角和圆形按钮
-  it('should render as round and circle button', () => {
+  // Props: tag
+  it("should renders the custom tag when tag prop is set", () => {
     const wrapper = mount(Button, {
-      props: { round: true, circle: true }
+      props: { tag: "a" },
     });
-    expect(wrapper.classes()).toContain('is-round');
-    expect(wrapper.classes()).toContain('is-circle');
+    expect(wrapper.element.tagName.toLowerCase()).toBe("a");
   });
 
-  // 测试加载状态
-  it('should render loading state', () => {
-    const wrapper = mount(Button, {
-      props: { loading: true }
-    });
-    expect(wrapper.find('.loading-icon').exists()).toBe(true); // 假设加载图标的类名为 .loading-icon
+  // Events: click
+  it("should emits a click event when the button is clicked", async () => {
+    const wrapper = mount(Button, {});
+    await wrapper.trigger("click");
+    expect(wrapper.emitted().click).toHaveLength(1);
   });
-
-  // 测试禁用状态
-  // it('should render disabled state', () => {
-  //   const wrapper = mount(Button, {
-  //     props: { disabled: true }
-  //   });
-  //   expect(wrapper.element).toBeDisabled();
-  // });
-
-  // 测试点击事件
-  // it('should emit click event', async () => {
-  //   const onClick = vi.fn();
-  //   const wrapper = mount(Button, {
-  //     listeners: {
-  //       click: onClick
-  //     }
-  //   });
-  //   await wrapper.trigger('click');
-  //   expect(onClick).toHaveBeenCalled();
-  // });
-
-  // 测试自定义元素标签
-  it('should render with custom tag', () => {
-    const wrapper = mount(Button, {
-      props: { tag: 'a' }
-    });
-    expect(wrapper.element.tagName).toBe('A');
-  });
-
-  // 测试节流模式
-  // it('should use throttle mode', async () => {
-  //   const onClick = vi.fn();
-  //   const throttleDuration = 1000;
-  //   const wrapper = mount(Button, {
-  //     props: { useThrottle: true, throttleDuration },
-  //     listeners: {
-  //       click: onClick
-  //     }
-  //   });
-  //   // 触发多次点击事件，测试节流效果
-  //   for (let i = 0; i < 10; i++) {
-  //     await wrapper.trigger('click');
-  //   }
-  //   // 由于节流，期望点击事件只被触发一次
-  //   expect(onClick).toHaveBeenCalledTimes(1);
-  // });
-})
+});
