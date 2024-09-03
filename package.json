@@ -7,8 +7,8 @@
     "dev": "pnpm --filter @zz_components_library/play dev",
     "docs:dev": "pnpm --filter @zz_components_library/docs dev",
     "docs:build": "pnpm --filter @zz_components_library/docs build",
-    "test": "pnpm --filter @zz_components_library/components test"
-    
+    "test": "pnpm --filter @zz_components_library/components test",
+    "storybook": "pnpm --filter @zz_components_library/play storybook"
   },
   "keywords": [],
   "author": "",
