@@ -87,7 +87,7 @@
     background-color: var(--zz-button-disabled-bg-color);
     border-color: var(--zz-button-disabled-border-color);
   }
-  [class*='er-icon'] {
+  [class*='zz-icon'] {
     width: 1em;
     height: 1em;
   }
@@ -145,7 +145,7 @@
     border-radius: 50%;
     padding: 5px;
   }
-  [class*='er-icon'] {
+  [class*='zz-icon'] {
     width: 12px;
     height: 12px;
   }
@@ -158,7 +158,7 @@
   &::after {
     clear: both;
   }
-  & > :deep(.er-button){
+  & > :deep(.zz-button){
     float: left;
     position: relative;
     margin-left: 0;
