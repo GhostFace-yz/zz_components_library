@@ -1,5 +1,5 @@
 import type { Meta, StoryObj, ArgTypes } from '@storybook/vue3'
-import { fn } from '@storybook/test'
+import { fn, within, userEvent, expect, clearAllMocks,} from '@storybook/test'
 
 import { ZzButton } from 'zz_components_library'
 import { render } from 'vue'
@@ -12,7 +12,7 @@ const meta: Meta<typeof ZzButton> = {
   component: ZzButton,
   tags: ['autodocs'],
   args: {
-    onclick: fn(),
+    onClick: fn(),
   },
   argTypes: {
     type: {
@@ -78,7 +78,27 @@ export const Default: Story & { args: { content: string } } = {
     template: container(
       `<zz-button v-bind="args">{{ args.content }}</zz-button>`
     )
-  })
+  }),
+  // 测试用例
+  play : async ({ canvasElement, args, step }) => {
+    const canvas = within(canvasElement)
+    const btn = canvas.getByTestId('story-test-btn')
+    // 用例1: 节流模式
+    // await step(
+    //   "When useThrottle is set to true, the onClick should be called called once",
+    //   async() => {
+    //     set(args, 'useThrottle', true)
+    //     await userEvent.tripleClick(btn);
+    //     expect(args.onClick).toHaveBeenCalledOnce()
+
+    //     clearAllMocks()
+    //   }
+    // )
+    await step('click btn', async() => {
+      await userEvent.click(canvas.getByRole('button'))
+    });
+    expect(args.onClick).toHaveBeenCalled()
+  }
 }
 
 export default meta

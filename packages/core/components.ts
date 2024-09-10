@@ -1,6 +1,6 @@
-import { ZzButton } from '@zz_components_library/components'
+import { ZzButton, ZzIcon } from '@zz_components_library/components'
 import type { Plugin } from 'vue'
 
 export default [
-  ZzButton
+  ZzButton, ZzIcon
 ] as Plugin[]
